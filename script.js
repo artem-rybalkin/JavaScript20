@@ -4,34 +4,31 @@ $(function(){
 		function(jsondata) {
 
 			var skils = [];
+			var skils2 = [];
 			var names = [];
 			var sortNames = [];
 			var allFriends = [];
+			var allFriends2 = [];
 			var obj = jsondata;
-			$.each(obj, function(i) {
-				$.each(obj[i].skills, function(j){
-				skils.push(obj[i].skills[j]);
-				});
-			});
-				var obj3 = _.uniq(skils);
-				// console.log (obj3.sort());
+				skils = _.map(obj,'skills');
+				var obj3 = _.flattenDeep(skils);
+				var obj31 = _.uniq(obj3);
+				console.log (obj31.sort());
 ///////////////////////////////////////////////// 
 			$.each(obj, function(k){
 				names[k] = {name:obj[k].name, friends:obj[k].friends.length};
-				sortNames.push(obj[k].friends.length);
 			});
-			var obj2 = _.sortBy(names, ['friends']);
-				// console.log(names);
-				// console.log(obj2);
+			var sortNames = _.map( _.sortBy(names, ['friends']), 'name');
+			console.log(sortNames);
+
 /////////////////////////////////////////////////
-			$.each(obj, function(l){
-				$.each(obj[l].friends, function(m) {
-					
-					allFriends.push(obj[l].friends[m].name);
-				});
-			});
-			var obj4 = _.uniq(allFriends);
-			console.log(obj4);
+			
+			allFriends = _.map(obj, 'friends');
+			allFriends2 =_.flattenDeep(allFriends);
+			var allFriendsName = _.map(allFriends2, 'name');
+			var allFriendsNameUniq  = _.uniq(allFriendsName);
+			
+			console.log(allFriendsNameUniq);
 		});
 	
 	
